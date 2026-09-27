@@ -4,266 +4,1163 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>סריקת כניסה – כנס תעלומות ירושלים</title>
+
   <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+
   <style>
     * { box-sizing: border-box; }
-    body { margin:0; font-family:Arial,sans-serif; background:#f4f5f7; color:#111; direction:rtl; font-size:22px; }
-    .app { max-width:680px; margin:0 auto; padding:18px; }
-    h1 { margin:8px 0 18px; text-align:center; font-size:34px; line-height:1.15; }
-    .card { background:#fff; border:2px solid #ddd; border-radius:16px; padding:20px; margin-bottom:16px; }
-    #loginCard { margin-top:40px; }
-    label { display:block; font-size:24px; font-weight:bold; margin-bottom:10px; }
-    input { width:100%; font-size:30px; padding:16px; border:2px solid #aaa; border-radius:12px; text-align:center; }
-    button { width:100%; border:0; border-radius:12px; padding:18px 14px; margin-top:12px; font-size:28px; font-weight:bold; cursor:pointer; background:#eceff3; color:#111; }
-    button:disabled { opacity:.55; cursor:default; }
-    .primary { background:#111; color:#fff; }
-    .successBox { background:#eaf7ec; border:3px solid #2d7a37; color:#14521c; text-align:center; font-size:32px; font-weight:bold; padding:24px 14px; border-radius:14px; }
-    .errorBox { background:#fff0f0; border:3px solid #b00020; color:#8a0018; text-align:center; font-size:28px; font-weight:bold; padding:22px 14px; border-radius:14px; }
-    .status { text-align:center; font-size:22px; font-weight:bold; margin:8px 0 14px; }
-    #reader { width:100%; overflow:hidden; border-radius:16px; background:#111; }
-    #reader video { border-radius:16px; }
-    #orderCard { display:none; }
-    .name { font-size:40px; font-weight:bold; line-height:1.15; margin-bottom:8px; }
-    .orderNo { font-size:24px; margin-bottom:18px; }
-    .stat { font-size:30px; margin:12px 0; }
-    .remaining { font-size:42px; font-weight:bold; margin:16px 0 22px; }
-    #actionButtons button { font-size:32px; padding:22px 12px; }
-    .small { text-align:center; color:#666; font-size:18px; margin-top:10px; }
-    #messageArea { display:none; margin-bottom:16px; }
-    .hidden { display:none !important; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f5f7;
+      color: #111;
+      direction: rtl;
+      font-size: 22px;
+    }
+
+    .app {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 18px;
+    }
+
+    h1 {
+      margin: 8px 0 18px;
+      text-align: center;
+      font-size: 34px;
+      line-height: 1.15;
+    }
+
+    .card {
+      background: #fff;
+      border: 2px solid #ddd;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    #loginCard {
+      margin-top: 40px;
+    }
+
+    label {
+      display: block;
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    input {
+      width: 100%;
+      font-size: 30px;
+      padding: 16px;
+      border: 2px solid #aaa;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    button {
+      width: 100%;
+      border: 0;
+      border-radius: 12px;
+      padding: 18px 14px;
+      margin-top: 12px;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      background: #eceff3;
+      color: #111;
+    }
+
+    button:disabled {
+      opacity: .55;
+      cursor: default;
+    }
+
+    .primary {
+      background: #111;
+      color: #fff;
+    }
+
+    .successBox {
+      background: #eaf7ec;
+      border: 3px solid #2d7a37;
+      color: #14521c;
+      text-align: center;
+      font-size: 32px;
+      font-weight: bold;
+      padding: 24px 14px;
+      border-radius: 14px;
+    }
+
+    .errorBox {
+      background: #fff0f0;
+      border: 3px solid #b00020;
+      color: #8a0018;
+      text-align: center;
+      font-size: 28px;
+      font-weight: bold;
+      padding: 22px 14px;
+      border-radius: 14px;
+    }
+
+    .status {
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+      margin: 8px 0 14px;
+    }
+
+    #reader {
+      width: 100%;
+      overflow: hidden;
+      border-radius: 16px;
+      background: #111;
+    }
+
+    #reader video {
+      border-radius: 16px;
+    }
+
+    #orderCard {
+      display: none;
+    }
+
+    .name {
+      font-size: 40px;
+      font-weight: bold;
+      line-height: 1.15;
+      margin-bottom: 8px;
+    }
+
+    .orderNo {
+      font-size: 24px;
+      margin-bottom: 18px;
+    }
+
+    .stat {
+      font-size: 30px;
+      margin: 12px 0;
+    }
+
+    .remaining {
+      font-size: 42px;
+      font-weight: bold;
+      margin: 16px 0 22px;
+    }
+
+    #actionButtons button {
+      font-size: 32px;
+      padding: 22px 12px;
+    }
+
+    .small {
+      text-align: center;
+      color: #666;
+      font-size: 18px;
+      margin-top: 10px;
+    }
+
+    #messageArea {
+      display: none;
+      margin-bottom: 16px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
   </style>
 </head>
+
 <body>
   <div class="app">
+
     <div id="loginCard" class="card">
       <h1>כנס תעלומות ירושלים</h1>
+
       <label for="pin">קוד צוות</label>
-      <input id="pin" type="password" inputmode="numeric" autocomplete="off" placeholder="הקלידו קוד צוות">
-      <button id="loginButton" class="primary" onclick="login()">פתיחת הסורק</button>
+
+      <input
+        id="pin"
+        type="password"
+        inputmode="numeric"
+        autocomplete="off"
+        placeholder="הקלידו קוד צוות"
+      >
+
+      <button
+        id="loginButton"
+        class="primary"
+        onclick="login()"
+      >
+        פתיחת הסורק
+      </button>
+
       <div id="loginMessage" class="small"></div>
     </div>
 
+
     <div id="scannerApp" class="hidden">
+
       <h1>סריקת כניסה</h1>
+
       <div id="messageArea"></div>
+
       <div class="card">
-        <div id="scannerStatus" class="status">מפעיל מצלמה...</div>
+
+        <div id="scannerStatus" class="status">
+          מפעיל מצלמה...
+        </div>
+
         <div id="reader"></div>
-        <div class="small">כוונו את המצלמה אל קוד ה־QR של המשתתף</div>
+
+        <div class="small">
+          כוונו את המצלמה אל קוד ה־QR של המשתתף
+        </div>
+
       </div>
+
+
       <div id="orderCard" class="card">
+
         <div id="customerName" class="name"></div>
+
         <div id="orderNumber" class="orderNo"></div>
-        <div class="stat">נרכשו: <strong id="tickets"></strong></div>
-        <div class="stat">כבר נכנסו: <strong id="entered"></strong></div>
-        <div class="remaining">נותרו: <span id="remaining"></span></div>
+
+        <div class="stat">
+          נרכשו:
+          <strong id="tickets"></strong>
+        </div>
+
+        <div class="stat">
+          כבר נכנסו:
+          <strong id="entered"></strong>
+        </div>
+
+        <div class="remaining">
+          נותרו:
+          <span id="remaining"></span>
+        </div>
+
         <div id="actionButtons"></div>
-        <button onclick="resetScanner()">סריקה מחדש</button>
+
+        <button onclick="resetScanner()">
+          סריקה מחדש
+        </button>
+
       </div>
+
     </div>
-    <iframe id="apiFrame" name="apiFrame" style="display:none"></iframe>
+
   </div>
 
+
 <script>
-  const API_URL = 'https://script.google.com/macros/s/AKfycbz9DCCfRCSZCXZJy__E5axUaJLel1BLrtgCUPDSUg6RbOC9T0a6OhMwZNlBUBznOwHH/exec';
+
+  const API_URL =
+    'https://script.google.com/macros/s/AKfycbz9DCCfRCSZCXZJy__E5axUaJLel1BLrtgCUPDSUg6RbOC9T0a6OhMwZNlBUBznOwHH/exec';
+
 
   let staffPin = '';
   let qrScanner = null;
   let scannerStarted = false;
   let scanLocked = false;
   let currentCode = '';
-  const pendingRequests = new Map();
 
-  window.addEventListener('load', () => {
-    const savedPin = localStorage.getItem('conferenceStaffPin');
-    if (savedPin) document.getElementById('pin').value = savedPin;
-  });
 
-  window.addEventListener('message', (event) => {
-    const data = event.data;
-    if (!data || typeof data !== 'object' || !data.requestId) return;
-    const pending = pendingRequests.get(data.requestId);
-    if (!pending) return;
-    clearTimeout(pending.timer);
-    pendingRequests.delete(data.requestId);
-    if (data.ok) pending.resolve(data);
-    else pending.reject(new Error(data.error || 'אירעה שגיאה'));
-  });
+  window.addEventListener(
+    'load',
+    function() {
 
-  function makeRequestId() {
-    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
-    return 'req_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+      const savedPin =
+        localStorage.getItem(
+          'conferenceStaffPin'
+        );
+
+      if (savedPin) {
+
+        document
+          .getElementById('pin')
+          .value = savedPin;
+      }
+    }
+  );
+
+
+  function makeCallbackName() {
+
+    return (
+      '__cb_' +
+      Date.now() +
+      '_' +
+      Math.random()
+        .toString(36)
+        .slice(2)
+    );
   }
 
-  function apiRequest(action, params = {}) {
-    return new Promise((resolve, reject) => {
-      const requestId = makeRequestId();
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = API_URL;
-      form.target = 'apiFrame';
-      form.style.display = 'none';
-      const values = { action, requestId, ...params };
-      Object.entries(values).forEach(([name, value]) => {
-        const input = document.createElement('input');
-        input.type = 'hidden'; input.name = name; input.value = value == null ? '' : String(value);
-        form.appendChild(input);
-      });
-      const timer = setTimeout(() => {
-        pendingRequests.delete(requestId);
-        form.remove();
-        reject(new Error('השרת לא הגיב בזמן. בדקו חיבור לאינטרנט ונסו שוב.'));
-      }, 20000);
-      pendingRequests.set(requestId, { resolve, reject, timer });
-      document.body.appendChild(form);
-      form.submit();
-      setTimeout(() => form.remove(), 1000);
-    });
+
+  function apiRequest(
+    action,
+    params = {}
+  ) {
+
+    return new Promise(
+      function(resolve, reject) {
+
+        const callbackName =
+          makeCallbackName();
+
+
+        const script =
+          document.createElement(
+            'script'
+          );
+
+
+        function cleanup() {
+
+          if (script.parentNode) {
+
+            script.parentNode
+              .removeChild(script);
+          }
+
+
+          try {
+
+            delete window[
+              callbackName
+            ];
+
+          } catch (error) {
+
+            window[
+              callbackName
+            ] = undefined;
+          }
+        }
+
+
+        const timer =
+          setTimeout(
+            function() {
+
+              cleanup();
+
+              reject(
+                new Error(
+                  'השרת לא הגיב בזמן. בדקו חיבור לאינטרנט ונסו שוב.'
+                )
+              );
+
+            },
+            20000
+          );
+
+
+        window[
+          callbackName
+        ] = function(data) {
+
+          clearTimeout(timer);
+
+          cleanup();
+
+
+          if (
+            data &&
+            data.ok
+          ) {
+
+            resolve(data);
+
+          } else {
+
+            reject(
+              new Error(
+                data &&
+                data.error
+                  ? data.error
+                  : 'אירעה שגיאה'
+              )
+            );
+          }
+        };
+
+
+        const query =
+          new URLSearchParams();
+
+
+        query.set(
+          'api',
+          '1'
+        );
+
+
+        query.set(
+          'action',
+          action
+        );
+
+
+        query.set(
+          'callback',
+          callbackName
+        );
+
+
+        query.set(
+          'nonce',
+          String(
+            Date.now()
+          )
+        );
+
+
+        Object.entries(
+          params
+        ).forEach(
+          function(
+            [key, value]
+          ) {
+
+            query.set(
+              key,
+              value == null
+                ? ''
+                : String(value)
+            );
+          }
+        );
+
+
+        script.src =
+          API_URL +
+          '?' +
+          query.toString();
+
+
+        script.onerror =
+          function() {
+
+            clearTimeout(timer);
+
+            cleanup();
+
+            reject(
+              new Error(
+                'לא ניתן להגיע לשרת. בדקו חיבור לאינטרנט ונסו שוב.'
+              )
+            );
+          };
+
+
+        document
+          .head
+          .appendChild(
+            script
+          );
+      }
+    );
   }
+
 
   async function login() {
-    const pin = document.getElementById('pin').value.trim();
-    if (!pin) { setLoginMessage('יש להקליד קוד צוות'); return; }
-    const button = document.getElementById('loginButton');
-    button.disabled = true; setLoginMessage('בודק קוד...');
-    try {
-      await apiRequest('auth', { pin });
-      staffPin = pin;
-      localStorage.setItem('conferenceStaffPin', pin);
-      document.getElementById('loginCard').classList.add('hidden');
-      document.getElementById('scannerApp').classList.remove('hidden');
-      await startScanner();
-    } catch (error) {
-      localStorage.removeItem('conferenceStaffPin');
-      setLoginMessage(error.message || String(error));
-    } finally { button.disabled = false; }
-  }
 
-  function setLoginMessage(text) { document.getElementById('loginMessage').innerText = text || ''; }
+    const pin =
+      document
+        .getElementById('pin')
+        .value
+        .trim();
 
-  async function startScanner() {
-    if (scannerStarted) return;
-    document.getElementById('scannerStatus').innerText = 'מבקש גישה למצלמה...';
-    qrScanner = new Html5Qrcode('reader');
-    try {
-      await qrScanner.start(
-        { facingMode: 'environment' },
-        { fps: 10, qrbox: { width: 260, height: 260 }, aspectRatio: 1.0 },
-        onQrRead,
-        () => {}
+
+    if (!pin) {
+
+      setLoginMessage(
+        'יש להקליד קוד צוות'
       );
-      scannerStarted = true;
-      document.getElementById('scannerStatus').innerText = 'מוכן לסריקה';
+
+      return;
+    }
+
+
+    const button =
+      document
+        .getElementById(
+          'loginButton'
+        );
+
+
+    button.disabled = true;
+
+
+    setLoginMessage(
+      'בודק קוד...'
+    );
+
+
+    try {
+
+      await apiRequest(
+        'auth',
+        {
+          pin: pin
+        }
+      );
+
+
+      staffPin = pin;
+
+
+      localStorage.setItem(
+        'conferenceStaffPin',
+        pin
+      );
+
+
+      document
+        .getElementById(
+          'loginCard'
+        )
+        .classList
+        .add('hidden');
+
+
+      document
+        .getElementById(
+          'scannerApp'
+        )
+        .classList
+        .remove('hidden');
+
+
+      await startScanner();
+
+
     } catch (error) {
-      document.getElementById('scannerStatus').innerText = 'לא ניתן לפתוח את המצלמה';
-      showError('יש לאשר לדפדפן גישה למצלמה. אם כבר אישרתם, רעננו את הדף ונסו שוב.');
+
+      localStorage.removeItem(
+        'conferenceStaffPin'
+      );
+
+
+      setLoginMessage(
+        error.message ||
+        String(error)
+      );
+
+
+    } finally {
+
+      button.disabled = false;
     }
   }
 
-  function extractCode(decodedText) {
-    const text = String(decodedText || '').trim();
-    if (!text) return '';
+
+  function setLoginMessage(text) {
+
+    document
+      .getElementById(
+        'loginMessage'
+      )
+      .innerText =
+        text || '';
+  }
+
+
+  async function startScanner() {
+
+    if (scannerStarted) {
+
+      return;
+    }
+
+
+    document
+      .getElementById(
+        'scannerStatus'
+      )
+      .innerText =
+        'מבקש גישה למצלמה...';
+
+
+    qrScanner =
+      new Html5Qrcode(
+        'reader'
+      );
+
+
     try {
-      const url = new URL(text);
-      const code = url.searchParams.get('code') || url.searchParams.get('ticket');
-      if (code) return code.trim();
-    } catch (_) {}
-    if (/^[A-Za-z0-9_-]{8,100}$/.test(text)) return text;
+
+      await qrScanner.start(
+
+        {
+          facingMode:
+            'environment'
+        },
+
+        {
+          fps: 10,
+
+          qrbox: {
+            width: 260,
+            height: 260
+          },
+
+          aspectRatio:
+            1.0
+        },
+
+        onQrRead,
+
+        function() {}
+      );
+
+
+      scannerStarted = true;
+
+
+      document
+        .getElementById(
+          'scannerStatus'
+        )
+        .innerText =
+          'מוכן לסריקה';
+
+
+    } catch (error) {
+
+      document
+        .getElementById(
+          'scannerStatus'
+        )
+        .innerText =
+          'לא ניתן לפתוח את המצלמה';
+
+
+      showError(
+        'יש לאשר לדפדפן גישה למצלמה. אם כבר אישרתם, רעננו את הדף ונסו שוב.'
+      );
+    }
+  }
+
+
+  function extractCode(
+    decodedText
+  ) {
+
+    const text =
+      String(
+        decodedText || ''
+      ).trim();
+
+
+    if (!text) {
+
+      return '';
+    }
+
+
+    try {
+
+      const url =
+        new URL(text);
+
+
+      const code =
+        url.searchParams.get(
+          'code'
+        ) ||
+        url.searchParams.get(
+          'ticket'
+        );
+
+
+      if (code) {
+
+        return code.trim();
+      }
+
+
+    } catch (error) {
+
+      // אם זה לא URL,
+      // נבדוק אם זה קוד ישיר.
+    }
+
+
+    if (
+      /^[A-Za-z0-9_-]{8,100}$/
+        .test(text)
+    ) {
+
+      return text;
+    }
+
+
     return '';
   }
 
-  async function onQrRead(decodedText) {
-    if (scanLocked) return;
-    const code = extractCode(decodedText);
-    if (!code) {
-      scanLocked = true;
-      showError('ה־QR שנסרק אינו כרטיס תקין של הכנס.');
-      vibrate([150,80,150]);
-      setTimeout(resetScanner, 1800);
+
+  async function onQrRead(
+    decodedText
+  ) {
+
+    if (scanLocked) {
+
       return;
     }
+
+
+    const code =
+      extractCode(
+        decodedText
+      );
+
+
+    if (!code) {
+
+      scanLocked = true;
+
+
+      showError(
+        'ה־QR שנסרק אינו כרטיס תקין של הכנס.'
+      );
+
+
+      vibrate(
+        [150, 80, 150]
+      );
+
+
+      setTimeout(
+        resetScanner,
+        1800
+      );
+
+
+      return;
+    }
+
+
     scanLocked = true;
+
     currentCode = code;
-    document.getElementById('scannerStatus').innerText = 'בודק הזמנה...';
+
+
+    document
+      .getElementById(
+        'scannerStatus'
+      )
+      .innerText =
+        'בודק הזמנה...';
+
+
     hideMessage();
+
+
     try {
-      const response = await apiRequest('lookup', { code: currentCode });
-      showOrder(response.order);
+
+      const response =
+        await apiRequest(
+          'lookup',
+          {
+            code:
+              currentCode
+          }
+        );
+
+
+      showOrder(
+        response.order
+      );
+
+
     } catch (error) {
-      showError(error.message || String(error));
-      vibrate([180,80,180]);
-      document.getElementById('scannerStatus').innerText = 'שגיאה';
+
+      showError(
+        error.message ||
+        String(error)
+      );
+
+
+      vibrate(
+        [180, 80, 180]
+      );
+
+
+      document
+        .getElementById(
+          'scannerStatus'
+        )
+        .innerText =
+          'שגיאה';
     }
   }
+
 
   function showOrder(order) {
-    document.getElementById('customerName').innerText = order.customerName || '';
-    document.getElementById('orderNumber').innerText = 'הזמנה ' + (order.orderNumber || '');
-    document.getElementById('tickets').innerText = order.tickets;
-    document.getElementById('entered').innerText = order.entered;
-    document.getElementById('remaining').innerText = order.remaining;
-    const buttons = document.getElementById('actionButtons');
+
+    document
+      .getElementById(
+        'customerName'
+      )
+      .innerText =
+        order.customerName ||
+        '';
+
+
+    document
+      .getElementById(
+        'orderNumber'
+      )
+      .innerText =
+        'הזמנה ' +
+        (
+          order.orderNumber ||
+          ''
+        );
+
+
+    document
+      .getElementById(
+        'tickets'
+      )
+      .innerText =
+        order.tickets;
+
+
+    document
+      .getElementById(
+        'entered'
+      )
+      .innerText =
+        order.entered;
+
+
+    document
+      .getElementById(
+        'remaining'
+      )
+      .innerText =
+        order.remaining;
+
+
+    const buttons =
+      document
+        .getElementById(
+          'actionButtons'
+        );
+
+
     buttons.innerHTML = '';
-    if (Number(order.remaining) <= 0) {
-      showError('הכרטיס כבר נוצל במלואו – ' + order.entered + ' מתוך ' + order.tickets + ' כבר נכנסו.');
-      vibrate([220,100,220]);
+
+
+    if (
+      Number(
+        order.remaining
+      ) <= 0
+    ) {
+
+      showError(
+        'הכרטיס כבר נוצל במלואו – ' +
+        order.entered +
+        ' מתוך ' +
+        order.tickets +
+        ' כבר נכנסו.'
+      );
+
+
+      vibrate(
+        [220, 100, 220]
+      );
+
+
     } else {
-      for (let i = 1; i <= Number(order.remaining); i++) {
-        const button = document.createElement('button');
-        button.className = 'primary';
-        button.innerText = Number(order.remaining) === 1 ? 'אישור כניסה' : 'כניסה של ' + i;
-        button.onclick = () => confirmCheckIn(i, button);
-        buttons.appendChild(button);
+
+      for (
+        let i = 1;
+        i <=
+          Number(
+            order.remaining
+          );
+        i++
+      ) {
+
+        const button =
+          document
+            .createElement(
+              'button'
+            );
+
+
+        button.className =
+          'primary';
+
+
+        button.innerText =
+          Number(
+            order.remaining
+          ) === 1
+            ? 'אישור כניסה'
+            : 'כניסה של ' + i;
+
+
+        button.onclick =
+          function() {
+
+            confirmCheckIn(
+              i,
+              button
+            );
+          };
+
+
+        buttons.appendChild(
+          button
+        );
       }
     }
-    document.getElementById('orderCard').style.display = 'block';
-    document.getElementById('scannerStatus').innerText = 'הזמנה נמצאה';
+
+
+    document
+      .getElementById(
+        'orderCard'
+      )
+      .style.display =
+        'block';
+
+
+    document
+      .getElementById(
+        'scannerStatus'
+      )
+      .innerText =
+        'הזמנה נמצאה';
   }
 
-  async function confirmCheckIn(quantity, clickedButton) {
-    const allButtons = document.querySelectorAll('#actionButtons button');
-    allButtons.forEach(button => button.disabled = true);
-    clickedButton.innerText = 'מעדכן...';
+
+  async function confirmCheckIn(
+    quantity,
+    clickedButton
+  ) {
+
+    const allButtons =
+      document
+        .querySelectorAll(
+          '#actionButtons button'
+        );
+
+
+    allButtons.forEach(
+      function(button) {
+
+        button.disabled =
+          true;
+      }
+    );
+
+
+    clickedButton.innerText =
+      'מעדכן...';
+
+
     try {
-      const response = await apiRequest('checkin', { code: currentCode, quantity, pin: staffPin });
+
+      const response =
+        await apiRequest(
+          'checkin',
+          {
+            code:
+              currentCode,
+
+            quantity:
+              quantity,
+
+            pin:
+              staffPin
+          }
+        );
+
+
       vibrate(120);
-      showSuccess('✓ הכניסה נרשמה בהצלחה');
-      document.getElementById('entered').innerText = response.order.entered;
-      document.getElementById('remaining').innerText = response.order.remaining;
-      setTimeout(resetScanner, 1100);
+
+
+      showSuccess(
+        '✓ הכניסה נרשמה בהצלחה'
+      );
+
+
+      document
+        .getElementById(
+          'entered'
+        )
+        .innerText =
+          response.order.entered;
+
+
+      document
+        .getElementById(
+          'remaining'
+        )
+        .innerText =
+          response.order.remaining;
+
+
+      setTimeout(
+        resetScanner,
+        1100
+      );
+
+
     } catch (error) {
-      showError(error.message || String(error));
-      vibrate([180,80,180]);
-      allButtons.forEach(button => button.disabled = false);
-      clickedButton.innerText = quantity === 1 ? 'אישור כניסה' : 'כניסה של ' + quantity;
+
+      showError(
+        error.message ||
+        String(error)
+      );
+
+
+      vibrate(
+        [180, 80, 180]
+      );
+
+
+      allButtons.forEach(
+        function(button) {
+
+          button.disabled =
+            false;
+        }
+      );
+
+
+      clickedButton.innerText =
+        quantity === 1
+          ? 'אישור כניסה'
+          : 'כניסה של ' +
+            quantity;
     }
   }
 
+
   function resetScanner() {
+
     currentCode = '';
+
     scanLocked = false;
-    document.getElementById('orderCard').style.display = 'none';
-    document.getElementById('actionButtons').innerHTML = '';
-    document.getElementById('scannerStatus').innerText = 'מוכן לסריקה';
+
+
+    document
+      .getElementById(
+        'orderCard'
+      )
+      .style.display =
+        'none';
+
+
+    document
+      .getElementById(
+        'actionButtons'
+      )
+      .innerHTML =
+        '';
+
+
+    document
+      .getElementById(
+        'scannerStatus'
+      )
+      .innerText =
+        'מוכן לסריקה';
+
+
     hideMessage();
   }
 
+
   function showSuccess(text) {
-    const area = document.getElementById('messageArea');
-    area.className = 'successBox'; area.innerText = text; area.style.display = 'block';
+
+    const area =
+      document
+        .getElementById(
+          'messageArea'
+        );
+
+
+    area.className =
+      'successBox';
+
+
+    area.innerText =
+      text;
+
+
+    area.style.display =
+      'block';
   }
+
 
   function showError(text) {
-    const area = document.getElementById('messageArea');
-    area.className = 'errorBox'; area.innerText = text; area.style.display = 'block';
+
+    const area =
+      document
+        .getElementById(
+          'messageArea'
+        );
+
+
+    area.className =
+      'errorBox';
+
+
+    area.innerText =
+      text;
+
+
+    area.style.display =
+      'block';
   }
+
 
   function hideMessage() {
-    const area = document.getElementById('messageArea');
-    area.innerText = ''; area.className = ''; area.style.display = 'none';
+
+    const area =
+      document
+        .getElementById(
+          'messageArea'
+        );
+
+
+    area.innerText =
+      '';
+
+
+    area.className =
+      '';
+
+
+    area.style.display =
+      'none';
   }
 
-  function vibrate(pattern) { if (navigator.vibrate) navigator.vibrate(pattern); }
+
+  function vibrate(pattern) {
+
+    if (
+      navigator.vibrate
+    ) {
+
+      navigator.vibrate(
+        pattern
+      );
+    }
+  }
+
 </script>
+
 </body>
 </html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>כרטיס כניסה – כנס תעלומות ירושלים</title>
+  <script src="https://unpkg.com/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin:0; font-family:Arial,sans-serif; background:#f4f5f7; color:#111; direction:rtl; }
+    .page { min-height:100vh; display:flex; justify-content:center; align-items:flex-start; padding:24px 16px 40px; }
+    .ticket { width:100%; max-width:520px; background:#fff; border:2px solid #ddd; border-radius:18px; padding:28px 22px 30px; text-align:center; box-shadow:0 4px 18px rgba(0,0,0,.05); }
+    h1 { margin:0 0 26px; font-size:34px; line-height:1.2; }
+    .label { font-size:20px; color:#555; margin-bottom:4px; }
+    .tickets { font-size:34px; font-weight:bold; margin-bottom:24px; }
+    .qr-box { display:inline-block; background:#fff; padding:12px; border:1px solid #ddd; border-radius:12px; margin:4px auto 22px; }
+    #qr { display:flex; align-items:center; justify-content:center; }
+    #qr img, #qr canvas { display:block; width:280px !important; height:280px !important; max-width:76vw; max-height:76vw; }
+    .instruction { font-size:22px; font-weight:bold; line-height:1.5; margin:8px 0 12px; }
+    .note { font-size:18px; color:#666; line-height:1.6; margin:0; }
+    .error { display:none; color:#9c0000; background:#fff0f0; border:2px solid #d99; border-radius:12px; padding:18px; font-size:20px; line-height:1.5; margin-top:18px; }
+    .code { margin-top:18px; font-size:14px; color:#999; word-break:break-all; }
+    @media (max-width:420px) {
+      .ticket { padding:24px 16px 26px; }
+      h1 { font-size:30px; }
+      .tickets { font-size:32px; }
+      .instruction { font-size:20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="ticket">
+      <h1>כנס תעלומות ירושלים</h1>
+      <div id="content">
+        <div class="label">מספר כרטיסים בהזמנה</div>
+        <div id="ticketCount" class="tickets"></div>
+        <div class="qr-box"><div id="qr"></div></div>
+        <div class="instruction">יש להציג את קוד ה־QR בכניסה לאולם</div>
+        <p class="note">מומלץ לפתוח את הכרטיס מראש או לשמור צילום מסך בטלפון.</p>
+        <div id="codeText" class="code"></div>
+      </div>
+      <div id="error" class="error">הקישור לכרטיס אינו תקין.</div>
+    </div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const code = String(params.get('code') || '').trim();
+    const tickets = String(params.get('tickets') || '').trim();
+
+    function isValidCode(value) {
+      return /^[A-Za-z0-9_-]{8,100}$/.test(value);
+    }
+
+    function showError() {
+      document.getElementById('content').style.display = 'none';
+      document.getElementById('error').style.display = 'block';
+    }
+
+    if (!isValidCode(code)) {
+      showError();
+    } else {
+      document.getElementById('ticketCount').innerText = tickets || '—';
+      document.getElementById('codeText').innerText = 'קוד כרטיס: ' + code;
+
+      new QRCode(document.getElementById('qr'), {
+        text: code,
+        width: 280,
+        height: 280,
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,272 +1,493 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>סריקת כניסה – כנס תעלומות ירושלים</title>
 
-  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
+
+  <title>
+    סריקת כניסה – כנס תעלומות ירושלים
+  </title>
+
 
   <style>
-    * { box-sizing: border-box; }
+
+    * {
+      box-sizing: border-box;
+    }
+
 
     body {
       margin: 0;
+
       font-family: Arial, sans-serif;
+
       background: #f4f5f7;
+
       color: #111;
+
       direction: rtl;
+
       font-size: 22px;
     }
 
+
     .app {
       max-width: 680px;
+
       margin: 0 auto;
+
       padding: 18px;
     }
 
+
     h1 {
       margin: 8px 0 18px;
+
       text-align: center;
+
       font-size: 34px;
+
       line-height: 1.15;
     }
 
+
     .card {
       background: #fff;
+
       border: 2px solid #ddd;
+
       border-radius: 16px;
+
       padding: 20px;
+
       margin-bottom: 16px;
     }
+
 
     #loginCard {
       margin-top: 40px;
     }
 
+
     label {
       display: block;
+
       font-size: 24px;
+
       font-weight: bold;
+
       margin-bottom: 10px;
     }
 
+
     input {
       width: 100%;
+
       font-size: 30px;
+
       padding: 16px;
+
       border: 2px solid #aaa;
+
       border-radius: 12px;
+
       text-align: center;
     }
+
 
     button {
       width: 100%;
+
       border: 0;
+
       border-radius: 12px;
+
       padding: 18px 14px;
+
       margin-top: 12px;
+
       font-size: 28px;
+
       font-weight: bold;
+
       cursor: pointer;
+
       background: #eceff3;
+
       color: #111;
     }
 
+
     button:disabled {
       opacity: .55;
+
       cursor: default;
     }
 
+
     .primary {
       background: #111;
+
       color: #fff;
     }
 
+
     .successBox {
       background: #eaf7ec;
+
       border: 3px solid #2d7a37;
+
       color: #14521c;
+
       text-align: center;
+
       font-size: 32px;
+
       font-weight: bold;
+
       padding: 24px 14px;
+
       border-radius: 14px;
     }
+
 
     .errorBox {
       background: #fff0f0;
+
       border: 3px solid #b00020;
+
       color: #8a0018;
+
       text-align: center;
+
       font-size: 28px;
+
       font-weight: bold;
+
       padding: 22px 14px;
+
       border-radius: 14px;
     }
 
+
     .status {
       text-align: center;
+
       font-size: 22px;
+
       font-weight: bold;
+
       margin: 8px 0 14px;
     }
 
-    #reader {
+
+    .cameraWrap {
+      position: relative;
+
       width: 100%;
+
       overflow: hidden;
+
       border-radius: 16px;
+
       background: #111;
+
+      min-height: 300px;
     }
 
-    #reader video {
+
+    #qrVideo {
+      display: block;
+
+      width: 100%;
+
+      min-height: 300px;
+
+      object-fit: cover;
+
       border-radius: 16px;
     }
+
+
+    .scanGuide {
+      pointer-events: none;
+
+      position: absolute;
+
+      left: 50%;
+
+      top: 50%;
+
+      transform: translate(-50%, -50%);
+
+      width: 72%;
+
+      aspect-ratio: 1 / 1;
+
+      border: 4px solid rgba(255,255,255,.92);
+
+      border-radius: 18px;
+
+      box-shadow:
+        0 0 0 9999px rgba(0,0,0,.28);
+    }
+
 
     #orderCard {
       display: none;
     }
 
+
     .name {
-      font-size: 40px;
+      font-size: 42px;
+
       font-weight: bold;
+
       line-height: 1.15;
+
       margin-bottom: 8px;
     }
 
+
     .orderNo {
-      font-size: 24px;
+      font-size: 25px;
+
       margin-bottom: 18px;
     }
 
+
     .stat {
-      font-size: 30px;
+      font-size: 31px;
+
       margin: 12px 0;
     }
 
+
     .remaining {
-      font-size: 42px;
+      font-size: 44px;
+
       font-weight: bold;
+
       margin: 16px 0 22px;
     }
 
+
     #actionButtons button {
-      font-size: 32px;
+      font-size: 33px;
+
       padding: 22px 12px;
     }
 
+
     .small {
       text-align: center;
+
       color: #666;
+
       font-size: 18px;
+
       margin-top: 10px;
     }
 
+
     #messageArea {
       display: none;
+
       margin-bottom: 16px;
     }
+
 
     .hidden {
       display: none !important;
     }
+
   </style>
+
 </head>
 
+
 <body>
-  <div class="app">
 
-    <div id="loginCard" class="card">
-      <h1>כנס תעלומות ירושלים</h1>
 
-      <label for="pin">קוד צוות</label>
+<div class="app">
 
-      <input
-        id="pin"
-        type="password"
-        inputmode="numeric"
-        autocomplete="off"
-        placeholder="הקלידו קוד צוות"
+
+  <div
+    id="loginCard"
+    class="card"
+  >
+
+    <h1>
+      כנס תעלומות ירושלים
+    </h1>
+
+
+    <label for="pin">
+      קוד צוות
+    </label>
+
+
+    <input
+      id="pin"
+      type="password"
+      inputmode="numeric"
+      autocomplete="off"
+      placeholder="הקלידו קוד צוות"
+    >
+
+
+    <button
+      id="loginButton"
+      class="primary"
+      onclick="login()"
+    >
+      פתיחת הסורק
+    </button>
+
+
+    <div
+      id="loginMessage"
+      class="small"
+    ></div>
+
+  </div>
+
+
+
+  <div
+    id="scannerApp"
+    class="hidden"
+  >
+
+    <h1>
+      סריקת כניסה
+    </h1>
+
+
+    <div id="messageArea"></div>
+
+
+    <div
+      id="scannerCard"
+      class="card"
+    >
+
+      <div
+        id="scannerStatus"
+        class="status"
       >
+        מפעיל מצלמה...
+      </div>
 
-      <button
-        id="loginButton"
-        class="primary"
-        onclick="login()"
-      >
-        פתיחת הסורק
-      </button>
 
-      <div id="loginMessage" class="small"></div>
+      <div class="cameraWrap">
+
+        <video
+          id="qrVideo"
+          playsinline
+          muted
+        ></video>
+
+        <div class="scanGuide"></div>
+
+      </div>
+
+
+      <div class="small">
+        כוונו את המצלמה אל קוד ה־QR של המשתתף
+      </div>
+
     </div>
 
 
-    <div id="scannerApp" class="hidden">
 
-      <h1>סריקת כניסה</h1>
+    <div
+      id="orderCard"
+      class="card"
+    >
 
-      <div id="messageArea"></div>
+      <div
+        id="customerName"
+        class="name"
+      ></div>
 
-      <div class="card">
 
-        <div id="scannerStatus" class="status">
-          מפעיל מצלמה...
-        </div>
+      <div
+        id="orderNumber"
+        class="orderNo"
+      ></div>
 
-        <div id="reader"></div>
 
-        <div class="small">
-          כוונו את המצלמה אל קוד ה־QR של המשתתף
-        </div>
-
+      <div class="stat">
+        נרכשו:
+        <strong id="tickets"></strong>
       </div>
 
 
-      <div id="orderCard" class="card">
-
-        <div id="customerName" class="name"></div>
-
-        <div id="orderNumber" class="orderNo"></div>
-
-        <div class="stat">
-          נרכשו:
-          <strong id="tickets"></strong>
-        </div>
-
-        <div class="stat">
-          כבר נכנסו:
-          <strong id="entered"></strong>
-        </div>
-
-        <div class="remaining">
-          נותרו:
-          <span id="remaining"></span>
-        </div>
-
-        <div id="actionButtons"></div>
-
-        <button onclick="resetScanner()">
-          סריקה מחדש
-        </button>
-
+      <div class="stat">
+        כבר נכנסו:
+        <strong id="entered"></strong>
       </div>
+
+
+      <div class="remaining">
+        נותרו:
+        <span id="remaining"></span>
+      </div>
+
+
+      <div id="actionButtons"></div>
+
+
+      <button onclick="resetScanner()">
+        סריקה מחדש
+      </button>
 
     </div>
 
   </div>
 
+</div>
 
-<script>
+
+
+<script type="module">
+
+  import QrScanner
+    from 'https://unpkg.com/qr-scanner@1.4.2/qr-scanner.min.js';
+
 
   const API_URL =
     'https://script.google.com/macros/s/AKfycbz9DCCfRCSZCXZJy__E5axUaJLel1BLrtgCUPDSUg6RbOC9T0a6OhMwZNlBUBznOwHH/exec';
 
 
   let staffPin = '';
+
   let qrScanner = null;
-  let scannerStarted = false;
+
   let scanLocked = false;
+
   let currentCode = '';
+
+  let lastHandledCode = '';
+
+  let lastHandledAt = 0;
+
+
+
+  window.login =
+    login;
+
+
+  window.resetScanner =
+    resetScanner;
+
 
 
   window.addEventListener(
@@ -278,14 +499,17 @@
           'conferenceStaffPin'
         );
 
+
       if (savedPin) {
 
         document
           .getElementById('pin')
-          .value = savedPin;
+          .value =
+            savedPin;
       }
     }
   );
+
 
 
   function makeCallbackName() {
@@ -301,6 +525,7 @@
   }
 
 
+
   function apiRequest(
     action,
     params = {}
@@ -314,17 +539,22 @@
 
 
         const script =
-          document.createElement(
-            'script'
-          );
+          document
+            .createElement(
+              'script'
+            );
 
 
         function cleanup() {
 
-          if (script.parentNode) {
+          if (
+            script.parentNode
+          ) {
 
             script.parentNode
-              .removeChild(script);
+              .removeChild(
+                script
+              );
           }
 
 
@@ -349,6 +579,7 @@
 
               cleanup();
 
+
               reject(
                 new Error(
                   'השרת לא הגיב בזמן. בדקו חיבור לאינטרנט ונסו שוב.'
@@ -362,32 +593,36 @@
 
         window[
           callbackName
-        ] = function(data) {
+        ] =
+          function(data) {
 
-          clearTimeout(timer);
-
-          cleanup();
-
-
-          if (
-            data &&
-            data.ok
-          ) {
-
-            resolve(data);
-
-          } else {
-
-            reject(
-              new Error(
-                data &&
-                data.error
-                  ? data.error
-                  : 'אירעה שגיאה'
-              )
+            clearTimeout(
+              timer
             );
-          }
-        };
+
+
+            cleanup();
+
+
+            if (
+              data &&
+              data.ok
+            ) {
+
+              resolve(data);
+
+            } else {
+
+              reject(
+                new Error(
+                  data &&
+                  data.error
+                    ? data.error
+                    : 'אירעה שגיאה'
+                )
+              );
+            }
+          };
 
 
         const query =
@@ -446,9 +681,13 @@
         script.onerror =
           function() {
 
-            clearTimeout(timer);
+            clearTimeout(
+              timer
+            );
+
 
             cleanup();
+
 
             reject(
               new Error(
@@ -468,11 +707,14 @@
   }
 
 
+
   async function login() {
 
     const pin =
       document
-        .getElementById('pin')
+        .getElementById(
+          'pin'
+        )
         .value
         .trim();
 
@@ -494,7 +736,8 @@
         );
 
 
-    button.disabled = true;
+    button.disabled =
+      true;
 
 
     setLoginMessage(
@@ -512,7 +755,8 @@
       );
 
 
-      staffPin = pin;
+      staffPin =
+        pin;
 
 
       localStorage.setItem(
@@ -526,7 +770,9 @@
           'loginCard'
         )
         .classList
-        .add('hidden');
+        .add(
+          'hidden'
+        );
 
 
       document
@@ -534,7 +780,9 @@
           'scannerApp'
         )
         .classList
-        .remove('hidden');
+        .remove(
+          'hidden'
+        );
 
 
       await startScanner();
@@ -555,12 +803,16 @@
 
     } finally {
 
-      button.disabled = false;
+      button.disabled =
+        false;
     }
   }
 
 
-  function setLoginMessage(text) {
+
+  function setLoginMessage(
+    text
+  ) {
 
     document
       .getElementById(
@@ -571,74 +823,78 @@
   }
 
 
+
   async function startScanner() {
 
-    if (scannerStarted) {
-
-      return;
-    }
-
-
-    document
-      .getElementById(
-        'scannerStatus'
-      )
-      .innerText =
-        'מבקש גישה למצלמה...';
+    const status =
+      document
+        .getElementById(
+          'scannerStatus'
+        );
 
 
-    qrScanner =
-      new Html5Qrcode(
-        'reader'
-      );
+    status.innerText =
+      'מבקש גישה למצלמה...';
 
 
     try {
 
-      await qrScanner.start(
+      const video =
+        document
+          .getElementById(
+            'qrVideo'
+          );
 
-        {
-          facingMode:
-            'environment'
-        },
 
-        {
-          fps: 10,
+      qrScanner =
+        new QrScanner(
 
-          qrbox: {
-            width: 260,
-            height: 260
+          video,
+
+          function(result) {
+
+            const decodedText =
+              typeof result === 'string'
+                ? result
+                : result.data;
+
+
+            onQrRead(
+              decodedText
+            );
           },
 
-          aspectRatio:
-            1.0
-        },
+          {
 
-        onQrRead,
+            preferredCamera:
+              'environment',
 
-        function() {}
-      );
+            maxScansPerSecond:
+              15,
+
+            returnDetailedScanResult:
+              true,
+
+            highlightScanRegion:
+              false,
+
+            highlightCodeOutline:
+              false
+          }
+        );
 
 
-      scannerStarted = true;
+      await qrScanner.start();
 
 
-      document
-        .getElementById(
-          'scannerStatus'
-        )
-        .innerText =
-          'מוכן לסריקה';
+      status.innerText =
+        'מוכן לסריקה';
 
 
     } catch (error) {
 
-      document
-        .getElementById(
-          'scannerStatus'
-        )
-        .innerText =
-          'לא ניתן לפתוח את המצלמה';
+      status.innerText =
+        'לא ניתן לפתוח את המצלמה';
 
 
       showError(
@@ -646,6 +902,7 @@
       );
     }
   }
+
 
 
   function extractCode(
@@ -687,8 +944,8 @@
 
     } catch (error) {
 
-      // אם זה לא URL,
-      // נבדוק אם זה קוד ישיר.
+      // אם זה אינו URL,
+      // ננסה לפרש אותו כקוד ישיר.
     }
 
 
@@ -705,11 +962,14 @@
   }
 
 
+
   async function onQrRead(
     decodedText
   ) {
 
-    if (scanLocked) {
+    if (
+      scanLocked
+    ) {
 
       return;
     }
@@ -723,32 +983,32 @@
 
     if (!code) {
 
-      scanLocked = true;
+      return;
+    }
 
 
-      showError(
-        'ה־QR שנסרק אינו כרטיס תקין של הכנס.'
-      );
+    const now =
+      Date.now();
 
 
-      vibrate(
-        [150, 80, 150]
-      );
-
-
-      setTimeout(
-        resetScanner,
-        1800
-      );
-
+    if (
+      code ===
+        lastHandledCode &&
+      now -
+        lastHandledAt <
+        3500
+    ) {
 
       return;
     }
 
 
-    scanLocked = true;
+    scanLocked =
+      true;
 
-    currentCode = code;
+
+    currentCode =
+      code;
 
 
     document
@@ -798,11 +1058,20 @@
         )
         .innerText =
           'שגיאה';
+
+
+      setTimeout(
+        resetScanner,
+        1800
+      );
     }
   }
 
 
-  function showOrder(order) {
+
+  function showOrder(
+    order
+  ) {
 
     document
       .getElementById(
@@ -856,7 +1125,8 @@
         );
 
 
-    buttons.innerHTML = '';
+    buttons.innerHTML =
+      '';
 
 
     if (
@@ -906,7 +1176,8 @@
             order.remaining
           ) === 1
             ? 'אישור כניסה'
-            : 'כניסה של ' + i;
+            : 'כניסה של ' +
+              i;
 
 
         button.onclick =
@@ -928,10 +1199,23 @@
 
     document
       .getElementById(
-        'orderCard'
+        'scannerCard'
       )
-      .style.display =
-        'block';
+      .classList
+      .add(
+        'hidden'
+      );
+
+
+    const orderCard =
+      document
+        .getElementById(
+          'orderCard'
+        );
+
+
+    orderCard.style.display =
+      'block';
 
 
     document
@@ -940,7 +1224,24 @@
       )
       .innerText =
         'הזמנה נמצאה';
+
+
+    requestAnimationFrame(
+      function() {
+
+        orderCard.scrollIntoView(
+          {
+            behavior:
+              'smooth',
+
+            block:
+              'start'
+          }
+        );
+      }
+    );
   }
+
 
 
   async function confirmCheckIn(
@@ -974,6 +1275,7 @@
         await apiRequest(
           'checkin',
           {
+
             code:
               currentCode,
 
@@ -986,7 +1288,17 @@
         );
 
 
-      vibrate(120);
+      lastHandledCode =
+        currentCode;
+
+
+      lastHandledAt =
+        Date.now();
+
+
+      vibrate(
+        120
+      );
 
 
       showSuccess(
@@ -1047,11 +1359,15 @@
   }
 
 
+
   function resetScanner() {
 
-    currentCode = '';
+    currentCode =
+      '';
 
-    scanLocked = false;
+
+    scanLocked =
+      false;
 
 
     document
@@ -1072,6 +1388,16 @@
 
     document
       .getElementById(
+        'scannerCard'
+      )
+      .classList
+      .remove(
+        'hidden'
+      );
+
+
+    document
+      .getElementById(
         'scannerStatus'
       )
       .innerText =
@@ -1079,10 +1405,33 @@
 
 
     hideMessage();
+
+
+    requestAnimationFrame(
+      function() {
+
+        document
+          .getElementById(
+            'scannerCard'
+          )
+          .scrollIntoView(
+            {
+              behavior:
+                'smooth',
+
+              block:
+                'start'
+            }
+          );
+      }
+    );
   }
 
 
-  function showSuccess(text) {
+
+  function showSuccess(
+    text
+  ) {
 
     const area =
       document
@@ -1104,7 +1453,10 @@
   }
 
 
-  function showError(text) {
+
+  function showError(
+    text
+  ) {
 
     const area =
       document
@@ -1124,6 +1476,7 @@
     area.style.display =
       'block';
   }
+
 
 
   function hideMessage() {
@@ -1148,7 +1501,10 @@
   }
 
 
-  function vibrate(pattern) {
+
+  function vibrate(
+    pattern
+  ) {
 
     if (
       navigator.vibrate
@@ -1162,5 +1518,7 @@
 
 </script>
 
+
 </body>
+
 </html>

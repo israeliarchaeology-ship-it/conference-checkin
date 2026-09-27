@@ -73,7 +73,7 @@
 
 
     h1 {
-      margin: 0 0 24px;
+      margin: 0 0 22px;
 
       font-size: 34px;
 
@@ -88,16 +88,16 @@
 
       line-height: 1.25;
 
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
 
     .order-number {
-      font-size: 18px;
+      font-size: 19px;
 
       color: #555;
 
-      margin-bottom: 22px;
+      margin-bottom: 20px;
     }
 
 
@@ -176,15 +176,6 @@
       line-height: 1.6;
 
       margin: 0;
-    }
-
-
-    .loading {
-      font-size: 18px;
-
-      color: #777;
-
-      margin-bottom: 18px;
     }
 
 
@@ -271,14 +262,6 @@
 
 
       <div
-        id="loading"
-        class="loading"
-      >
-        טוען את פרטי ההזמנה...
-      </div>
-
-
-      <div
         id="customerName"
         class="name"
       ></div>
@@ -345,10 +328,6 @@
 <script>
 
 
-  const API_URL =
-    'https://script.google.com/macros/s/AKfycbz9DCCfRCSZCXZJy__E5axUaJLel1BLrtgCUPDSUg6RbOC9T0a6OhMwZNlBUBznOwHH/exec';
-
-
   const params =
     new URLSearchParams(
       window.location.search
@@ -361,9 +340,21 @@
     ).trim();
 
 
-  const ticketsFromUrl =
+  const tickets =
     String(
       params.get('tickets') || ''
+    ).trim();
+
+
+  const customerName =
+    String(
+      params.get('name') || ''
+    ).trim();
+
+
+  const orderNumber =
+    String(
+      params.get('order') || ''
     ).trim();
 
 
@@ -398,207 +389,51 @@
 
 
 
-  function makeCallbackName() {
-
-    return (
-      '__ticket_cb_' +
-      Date.now() +
-      '_' +
-      Math.random()
-        .toString(36)
-        .slice(2)
-    );
-  }
-
-
-
-  function apiRequest(
-    action,
-    params = {}
+  if (
+    !isValidCode(
+      code
+    )
   ) {
 
-    return new Promise(
-      function(
-        resolve,
-        reject
-      ) {
+    showError();
 
-        const callbackName =
-          makeCallbackName();
+  } else {
 
 
-        const script =
-          document
-            .createElement(
-              'script'
-            );
+    document
+      .getElementById(
+        'customerName'
+      )
+      .innerText =
+        customerName;
 
 
-        function cleanup() {
-
-          if (
-            script.parentNode
-          ) {
-
-            script
-              .parentNode
-              .removeChild(
-                script
-              );
-          }
+    document
+      .getElementById(
+        'orderNumber'
+      )
+      .innerText =
+        orderNumber
+          ? 'הזמנה ' + orderNumber
+          : '';
 
 
-          try {
-
-            delete window[
-              callbackName
-            ];
-
-          } catch (error) {
-
-            window[
-              callbackName
-            ] = undefined;
-          }
-        }
+    document
+      .getElementById(
+        'ticketCount'
+      )
+      .innerText =
+        tickets || '—';
 
 
-        const timer =
-          setTimeout(
-            function() {
+    document
+      .getElementById(
+        'codeText'
+      )
+      .innerText =
+        'קוד כרטיס: ' +
+        code;
 
-              cleanup();
-
-
-              reject(
-                new Error(
-                  'השרת לא הגיב בזמן'
-                )
-              );
-
-            },
-            15000
-          );
-
-
-        window[
-          callbackName
-        ] =
-          function(data) {
-
-            clearTimeout(
-              timer
-            );
-
-
-            cleanup();
-
-
-            if (
-              data &&
-              data.ok
-            ) {
-
-              resolve(data);
-
-            } else {
-
-              reject(
-                new Error(
-                  data &&
-                  data.error
-                    ? data.error
-                    : 'אירעה שגיאה'
-                )
-              );
-            }
-          };
-
-
-        const query =
-          new URLSearchParams();
-
-
-        query.set(
-          'api',
-          '1'
-        );
-
-
-        query.set(
-          'action',
-          action
-        );
-
-
-        query.set(
-          'callback',
-          callbackName
-        );
-
-
-        query.set(
-          'nonce',
-          String(
-            Date.now()
-          )
-        );
-
-
-        Object.entries(
-          params
-        ).forEach(
-          function(
-            [key, value]
-          ) {
-
-            query.set(
-              key,
-              value == null
-                ? ''
-                : String(value)
-            );
-          }
-        );
-
-
-        script.src =
-          API_URL +
-          '?' +
-          query.toString();
-
-
-        script.onerror =
-          function() {
-
-            clearTimeout(
-              timer
-            );
-
-
-            cleanup();
-
-
-            reject(
-              new Error(
-                'לא ניתן להגיע לשרת'
-              )
-            );
-          };
-
-
-        document
-          .head
-          .appendChild(
-            script
-          );
-      }
-    );
-  }
-
-
-
-  function createQr() {
 
     new QRCode(
       document.getElementById(
@@ -622,133 +457,6 @@
       }
     );
   }
-
-
-
-  async function loadTicket() {
-
-    if (
-      !isValidCode(
-        code
-      )
-    ) {
-
-      showError();
-
-      return;
-    }
-
-
-    /*
-     * ה-QR נוצר מיד.
-     * גם אם טעינת שם המשתתף תיכשל,
-     * הכרטיס עצמו עדיין שמיש.
-     */
-    createQr();
-
-
-    document
-      .getElementById(
-        'codeText'
-      )
-      .innerText =
-        'קוד כרטיס: ' +
-        code;
-
-
-    if (
-      ticketsFromUrl
-    ) {
-
-      document
-        .getElementById(
-          'ticketCount'
-        )
-        .innerText =
-          ticketsFromUrl;
-    }
-
-
-    try {
-
-      const response =
-        await apiRequest(
-          'lookup',
-          {
-            code:
-              code
-          }
-        );
-
-
-      const order =
-        response.order;
-
-
-      document
-        .getElementById(
-          'customerName'
-        )
-        .innerText =
-          order.customerName ||
-          '';
-
-
-      document
-        .getElementById(
-          'orderNumber'
-        )
-        .innerText =
-          'הזמנה ' +
-          (
-            order.orderNumber ||
-            ''
-          );
-
-
-      document
-        .getElementById(
-          'ticketCount'
-        )
-        .innerText =
-          order.tickets;
-
-
-    } catch (error) {
-
-      /*
-       * אם יש תקלה זמנית מול Google,
-       * לא נפסול את הכרטיס.
-       * ה-QR עדיין מוצג.
-       */
-      document
-        .getElementById(
-          'customerName'
-        )
-        .innerText =
-          '';
-
-
-      document
-        .getElementById(
-          'orderNumber'
-        )
-        .innerText =
-          '';
-    }
-
-
-    document
-      .getElementById(
-        'loading'
-      )
-      .style.display =
-        'none';
-  }
-
-
-
-  loadTicket();
 
 
 </script>
